@@ -1,8 +1,13 @@
+import { useContext } from "react"
 import Link from "next/link";
 import { useRouter } from "next/router"
-
+import { DataContext } from "./../store/GlobalState"
+import Cookie from "js-cookie"
 
 const NavBar = () => {
+
+    const { state, dispatch } = useContext(DataContext);
+    const { auth } = state;
 
     const router = useRouter();
     const isActive = (r) => {
@@ -11,6 +16,34 @@ const NavBar = () => {
         } else {
             return ""
         }
+    }
+
+    const handleLogOut = () => {
+        Cookie.remove("refreshtoken", {
+            path: "api/auth/accessToken",
+        });
+        localStorage.removeItem("firstLogin")
+        dispatch({ type: "AUTH", payload: {} });
+        dispatch({ type: "NOTIFY", payload: { success: "شما از وب سایت خارج شدید" } });
+    }
+
+    const loggedRouter = () => {
+        return (
+            <>
+                <li>
+                    <Link href="/profile">
+                        <a className={"hover:text-red-900" + isActive("/profile")}>
+                            <span>پروفایل</span>
+                        </a>
+                    </Link>
+                </li>
+                <li onClick={handleLogOut}>
+                    <p>
+                        خروج
+                    </p>
+                </li>
+            </>
+        )
     }
 
     return (
@@ -39,11 +72,18 @@ const NavBar = () => {
                                 <a className={"hover:text-red-900" + isActive("/")}>خانه</a>
                             </Link>
                         </li>
-                        <li>
-                            <Link href="/signIn">
-                                <a className={"hover:text-red-900" + isActive("/signin")}>ثبت نام / ورود</a>
-                            </Link>
-                        </li>
+                        {
+                            Object.keys(auth).length === 0 ?
+                                <>
+                                    <li>
+                                        <Link href="/signIn">
+                                            <a className={"hover:text-red-900" + isActive("/signIn")}>ثبت نام / ورود</a>
+                                        </Link>
+                                    </li>
+                                </>
+                                :
+                                loggedRouter()
+                        }
                     </ul>
                 </div>
             </div>

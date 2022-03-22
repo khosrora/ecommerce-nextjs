@@ -8,6 +8,7 @@ connectDB();
 
 
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default async (req, res) => {
     switch (req.method) {
         case "POST":
@@ -18,14 +19,18 @@ export default async (req, res) => {
 
 const register = async (req, res) => {
     try {
-        console.log(req.body)
+        // ! get body
         const { name, email, phoneNumber, password, confirmPassword } = req.body;
+        // ! validation
         const errMsg = valid(name, email, phoneNumber, password, confirmPassword);
         if (errMsg) return res.status(400).json({ err: errMsg });
-
+        // ! check register user
+        const user = await Users.findOne({ email });
+        if (user) return res.status(400).json({ msg: "شما ثبت نام کرده اید" })
+        // ! password hashing
         const passwordHash = await bcrypt.hash(password, 12);
+        // ! create user
         const newUser = await new Users({ name, email, phoneNumber, password: passwordHash })
-        console.log(newUser);
         await newUser.save();
         res.json({ msg: "ثبت نام با موفقیت انجام شد" })
 

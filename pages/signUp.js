@@ -1,9 +1,11 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import valid from "./../utils/validation";
 import { DataContext } from "../store/GlobalState"
 import { postData } from "../utils/fetchData"
+import { useRouter } from "next/router"
+
 
 const SignUp = () => {
 
@@ -11,7 +13,10 @@ const SignUp = () => {
     const [userData, setUserData] = useState(initialState)
     const { name, email, password, confirmPassword, phoneNumber } = userData;
 
-    const [state, dispatch] = useContext(DataContext)
+    const { state, dispatch } = useContext(DataContext)
+    const { auth } = state;
+
+    const router = useRouter();
 
     const handleChangeInput = e => {
         const { name, value } = e.target;
@@ -34,6 +39,11 @@ const SignUp = () => {
             console.log(err.message);
         }
     }
+
+    useEffect(() => {
+        if (Object.keys(auth).length !== 0) router.push("/")
+    }, [auth, router])
+
 
     return (
         <div className="">
@@ -82,7 +92,7 @@ const SignUp = () => {
                     </div>
                 </form >
                 <p className="text-center text-gray-500 text-xs">
-                    &copy;2020 RABA group
+                    &copy;2021 RABA group
                 </p>
             </div >
         </div >

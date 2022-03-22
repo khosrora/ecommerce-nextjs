@@ -12,5 +12,5 @@ const userSchema = new mongoose.Schema({
     avatar: { type: String, default: "https://picsum.photos/200" }
 }, { timestamps: true });
 
-let Dataset = mongoose.model.user || mongoose.model("user", userSchema);
+let Dataset = mongoose.models.user || mongoose.model("user", userSchema);
 export default Dataset;
