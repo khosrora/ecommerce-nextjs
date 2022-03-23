@@ -9,15 +9,16 @@ export const DataContext = createContext()
 
 export const DataProvider = ({ children }) => {
 
-    const initialState = { notify: {}, auth: {} };
+    const initialState = { notify: {}, auth: {}, cart: [] };
     const [state, dispatch] = useReducer(reducers, initialState);
+
+    const { cart, notify } = state;
 
     useEffect(() => {
         const firstLogin = localStorage.getItem("firstLogin");
         if (firstLogin) {
             getData("auth/accessToken").then(res => {
                 if (res.err) return localStorage.removeItem("firstLogin");
-
                 dispatch({
                     type: "AUTH",
                     payload: {
@@ -28,6 +29,16 @@ export const DataProvider = ({ children }) => {
             })
         }
     }, [])
+
+    useEffect(() => {
+        const __next__cart01__khRA = JSON.parse(localStorage.getItem("__next__cart01__khRA"));
+        if (__next__cart01__khRA) dispatch({ type: "ADD_CART", payload: __next__cart01__khRA })
+    }, [])
+
+    useEffect(() => {
+        localStorage.setItem("__next__cart01__khRA", JSON.stringify(cart));
+    }, [cart])
+
 
     return (
         <DataContext.Provider value={

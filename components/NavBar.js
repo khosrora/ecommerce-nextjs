@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import Link from "next/link";
 import { useRouter } from "next/router"
 import { DataContext } from "./../store/GlobalState"
@@ -7,7 +7,7 @@ import Cookie from "js-cookie"
 const NavBar = () => {
 
     const { state, dispatch } = useContext(DataContext);
-    const { auth } = state;
+    const { auth, cart } = state;
 
     const router = useRouter();
     const isActive = (r) => {
@@ -26,6 +26,7 @@ const NavBar = () => {
         dispatch({ type: "AUTH", payload: {} });
         dispatch({ type: "NOTIFY", payload: { success: "شما از وب سایت خارج شدید" } });
     }
+
 
     const loggedRouter = () => {
         return (
@@ -67,6 +68,16 @@ const NavBar = () => {
                 </div>
                 <div className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-3">
                     <ul className="flex flex-col mt-4 md:flex-row md:space-x-4 md:mt-0 md:text-sm md:font-bold md:gap-x-8">
+                        <li className="relative">
+                            <Link href="/cart">
+                                <a className={"hover:text-red-900" + isActive("/cart")}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" >
+                                        <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                    <span className="absolute -top-2 flex justify-center items-center rounded-full p-1 h-4 w-4 bg-red-700 text-white">{cart.length}</span>
+                                </a>
+                            </Link>
+                        </li>
                         <li>
                             <Link href="/">
                                 <a className={"hover:text-red-900" + isActive("/")}>خانه</a>
