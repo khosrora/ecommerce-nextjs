@@ -10,7 +10,13 @@ const Cart = () => {
     const { state, dispatch } = useContext(DataContext);
     const { auth, cart } = state;
 
-    const [total, setTotal] = useState(0)
+    const [total, setTotal] = useState(0);
+    const [address, setAddress] = useState("");
+
+    let error;
+    if (address.length >= 100) {
+        error = "آدرس نباید بیشتر از 100 کاراکتر باشد"
+    }
 
     useEffect(() => {
         const getTotal = () => {
@@ -64,7 +70,7 @@ const Cart = () => {
                         <tbody>
                             {
                                 cart.map(item => (
-                                    <CartItem key={item._id} item={item} dispatch={dispatch} cart={cart}  />
+                                    <CartItem key={item._id} item={item} dispatch={dispatch} cart={cart} />
                                 ))
                             }
                         </tbody>
@@ -72,14 +78,17 @@ const Cart = () => {
                     <form action="#" method="POST">
                         <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
                             <div>
-                                <label htmlFor="about" className="block text-sm font-medium text-gray-700"> آدرس </label>
+                                <label htmlFor="address" className="block text-sm font-medium text-gray-700"> آدرس </label>
                                 <div className="mt-1">
-                                    <textarea id="about" name="about" rows="3" className="shadow-sm p-2 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md" placeholder="لطفا آدرس خود را وارد کنید"></textarea>
+                                    <textarea value={address} onChange={e => setAddress(e.target.value)} id="address" name="address" rows="3" className="shadow-sm p-2 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md" placeholder="لطفا آدرس خود را وارد کنید"></textarea>
+                                    <span className="text-sm text-red-600">
+                                        {error ? error : null}
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </form>
-     
+
                     <Link href={auth.user ? "#" : "/signIn"}>
                         <p className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer">
                             پرداخت  {total} تومان

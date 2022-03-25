@@ -1,11 +1,28 @@
-import { useContext } from "react";
-import { DataContext } from "../store/GlobalState"
 import { decrease, increase, deleteItem } from "../store/Actions";
-
+import swal from 'sweetalert';
 
 
 const CartItem = ({ item, dispatch, cart }) => {
 
+    const handleDelete = () => {
+        swal({
+            title: "مطمئنی میخوای حذف کنی",
+            icon: "warning",
+            buttons: ["نه گوه خوردم", "آره"],
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    dispatch(deleteItem(cart, item._id, "ADD_CART"))
+                } else {
+                    swal("دیگه فایده نداره دهنت سرویسه", {
+                        buttons: "نههههههههههه !!!",
+                        dangerMode: true,
+                        icon: "warning",
+                    });
+                }
+            });
+    }
 
     return (
         <tr>
@@ -13,7 +30,7 @@ const CartItem = ({ item, dispatch, cart }) => {
                 <div className="flex justify-center">
                     <img
                         src={item.images[0].url}
-                        className="object-cover h-28 w-28 rounded-2xl"
+                        className="object-cover h-16 w-16"
                         alt="image"
                     />
                 </div>
@@ -58,7 +75,7 @@ const CartItem = ({ item, dispatch, cart }) => {
             </td>
             <td className="p-4 px-6 text-center whitespace-nowrap">{item.price * item.quantity}</td>
             <td className="p-4 px-6 text-center whitespace-nowrap">
-                <button>
+                <button onClick={() => handleDelete()}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-6 h-6 text-red-700"

@@ -8,7 +8,6 @@ const Layout = ({ children }) => {
         <div className="max-w-6xl m-auto">
             <NavBar />
             <Notify />
-            
             {children}
         </div>
     );
