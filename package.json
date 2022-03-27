@@ -17,7 +17,8 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "sweetalert": "^2.1.2",
-    "swiper": "^8.0.7"
+    "swiper": "^8.0.7",
+    "zarinpal-checkout": "^0.2.7"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.4",

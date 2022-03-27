@@ -23,10 +23,10 @@ const login = async (req, res) => {
         const { email, password } = req.body;
         // ! check register user
         const user = await Users.findOne({ email });
-        if (!user) return res.status(400).json({ msg: "شما ثبت نام نکرده اید" })
+        if (!user) return res.status(400).json({ err: "شما ثبت نام نکرده اید" })
         // ! password check
         const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ msg: "شما ثبت نام نکرده اید" });
+        if (!isMatch) return res.status(400).json({ err: "شما ثبت نام نکرده اید" });
         // ! generete token
         const access_token = createAccessToken({ id: user._id });
         const refresh_token = createRefreshToken({ id: user._id })

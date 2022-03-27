@@ -3,7 +3,8 @@ import Link from "next/link";
 import Head from "next/head";
 import { DataContext } from "../store/GlobalState";
 import CartItem from './../components/cartItem';
-import { getData } from "../utils/fetchData"
+import { getData, postData } from "../utils/fetchData";
+import Router from 'next/router'
 
 const Cart = () => {
 
@@ -45,6 +46,17 @@ const Cart = () => {
             updateCart();
         }
     }, [])
+
+    const handlePayment = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await postData("order/payment", { orders: cart, total, userId: auth.user._id, address });
+            console.log(res)
+            return Router.push(res.url)
+        } catch (err) {
+            console.log(err.message);
+        }
+    }
 
     if (cart.length === 0) return <h2>سبد خرید شما خالی است</h2>
     return (
@@ -88,12 +100,22 @@ const Cart = () => {
                             </div>
                         </div>
                     </form>
-
-                    <Link href={auth.user ? "#" : "/signIn"}>
-                        <p className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer">
-                            پرداخت  {total} تومان
-                        </p>
-                    </Link>
+                    {
+                        address.length > 10
+                            ?
+                            // <Link href={auth.user ? "#" : "/signIn"}>
+                            //     <p className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer">
+                            //         پرداخت  {total} تومان
+                            //     </p>
+                            // </Link>
+                            <p onClick={handlePayment} className="w-full bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer">
+                                پرداخت  {total} تومان
+                            </p>
+                            :
+                            <p className="w-full bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer">
+                                لطفا ابتدا آدرس را وارد کنید
+                            </p>
+                    }
                 </div>
             </div>
         </div>

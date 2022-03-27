@@ -1,8 +1,9 @@
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import Link from "next/link";
 import { useRouter } from "next/router"
 import { DataContext } from "./../store/GlobalState"
 import Cookie from "js-cookie"
+
 
 const NavBar = () => {
 
@@ -24,6 +25,7 @@ const NavBar = () => {
         });
         localStorage.removeItem("firstLogin")
         dispatch({ type: "AUTH", payload: {} });
+        router.push("/")
         dispatch({ type: "NOTIFY", payload: { success: "شما از وب سایت خارج شدید" } });
     }
 
@@ -39,7 +41,7 @@ const NavBar = () => {
                     </Link>
                 </li>
                 <li onClick={handleLogOut}>
-                    <p>
+                    <p className="cursor-pointer">
                         خروج
                     </p>
                 </li>
