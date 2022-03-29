@@ -3,7 +3,7 @@ import nc from "next-connect";
 import onError from "../../../middleware/errorMiddleware";
 import Users from "../../../models/userModel";
 import upload from "../../../middleware/multer";
-
+import fs from "fs"
 
 
 connectDB();
@@ -32,21 +32,28 @@ let uploadFile = upload.single("file");
 changeAvatar.use(uploadFile);
 
 changeAvatar.post(async (req, res) => {
+    // ! get items body
+    const filename = req.file.filename;
+    const id = req.body.id;
     try {
-        // ! get items body
-        const filename = req.file.filename;
-        const id = req.body.id;
         // ! find user 
         const user = await Users.findById(id);
-        if (!user) return res.status(200).json({ err: "متاسفانه کاربر پیدا نشد" });
+        if (!user) {
+            remove(filename)
+            return res.status(200).json({ err: "متاسفانه کاربر پیدا نشد" });
+        }
         // ! change avatar
-        console.log(user);
         user.avatar = `${process.env.BASE_URL}/uploads/avatars/${filename}`
         await user.save();
 
         return res.status(200).json({ msg: "پروفایل شما با موفقیت به روز شد" })
     } catch (err) {
+        remove(filename)
         return res.status(500).json({ err: err.message });
     }
 })
 
+
+const remove = (fileName) => {
+    fs.unlinkSync(`public/uploads/avatars/${fileName}`)
+}
