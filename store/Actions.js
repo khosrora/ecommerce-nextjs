@@ -2,7 +2,8 @@ export const ACTIONS = {
     NOTIFY: "NOTIFY",
     AUTH: "AUTH",
     ADD_CART: "ADD_CART",
-    REMOVE_CART : "REMOVE_CART"
+    REMOVE_CART : "REMOVE_CART" , 
+    ADD_ORDERS : "ADD_ORDERS"
 }
 
 

@@ -7,6 +7,7 @@ import { imageUpload } from "../utils/imageUpload"
 
 
 import valid from "../utils/validation"
+import Order from './../components/order';
 
 const Profile = () => {
 
@@ -22,7 +23,7 @@ const Profile = () => {
     const { avatar, name, password, cf_password, phoneNumber } = data;
 
     const { state, dispatch } = useContext(DataContext)
-    const { auth, notify } = state;
+    const { auth, notify, orders } = state;
 
     useEffect(() => {
         if (auth.user) setData({ ...data, name: auth.user.name })
@@ -121,7 +122,44 @@ const Profile = () => {
                     </div>
                 </div>
                 <div className="border rounded p-4 basis-3/4">
-                    تست
+
+                    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                        <table className="w-full text-sm text-right text-gray-500 ">
+                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
+                                <tr>
+                                    <th scope="col" className="px-6 py-3">
+                                        کد پیگیری
+                                    </th>
+                                    <th scope="col" className="px-6 py-3">
+                                        مبلغ
+                                    </th>
+                                    <th scope="col" className="px-6 py-3">
+                                        وضعیت
+                                    </th>
+                                    <th scope="col" className="px-6 py-3">
+                                        تاریخ
+                                    </th>
+                                    <th scope="col" className="px-6 py-3">
+                                        پرداخت
+                                    </th>
+                                    <th scope="col" className="px-6 py-3">
+                                        #
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    orders ?
+                                        orders.map(i => (
+                                            <Order key={i._id} order={i} />
+                                        ))
+                                        :
+                                        <p>در حال دریافت اطلاعات</p>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
             </section>
         </div>
