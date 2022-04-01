@@ -40,6 +40,18 @@ const NavBar = () => {
                         </a>
                     </Link>
                 </li>
+                {
+                    auth.user.role === "admin"
+                    &&
+                    <li>
+                        <Link href="/admin/dashboard">
+                            <p className="cursor-pointer">
+                                پنل مدیریت
+                            </p>
+                        </Link>
+                    </li>
+
+                }
                 <li onClick={handleLogOut}>
                     <p className="cursor-pointer">
                         خروج

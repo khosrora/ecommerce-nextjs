@@ -41,4 +41,6 @@ export async function getServerSideProps() {
   }
 }
 
+Home.layout = "L1";
+
 export default Home;

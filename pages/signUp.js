@@ -99,4 +99,6 @@ const SignUp = () => {
     );
 }
 
+SignUp.layout = "L1";
+
 export default SignUp;

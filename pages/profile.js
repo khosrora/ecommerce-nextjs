@@ -1,4 +1,5 @@
 import { useContext, useState, useEffect } from "react"
+import Link from "next/link"
 import Head from "next/head";
 import { DataContext } from "../store/GlobalState";
 import { patchData } from "../utils/fetchData"
@@ -165,5 +166,7 @@ const Profile = () => {
         </div>
     );
 }
+
+Profile.layout = "L1";
 
 export default Profile;

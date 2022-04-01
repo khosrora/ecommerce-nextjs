@@ -121,5 +121,5 @@ const Cart = () => {
         </div>
     );
 }
-
+Cart.layout = "L1";
 export default Cart;

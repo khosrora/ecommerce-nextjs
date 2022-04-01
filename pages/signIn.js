@@ -95,4 +95,6 @@ const SignIn = () => {
     );
 }
 
+SignIn.layout = "L1";
+
 export default SignIn;

@@ -8,15 +8,15 @@ const CartItem = ({ item, dispatch, cart }) => {
         swal({
             title: "مطمئنی میخوای حذف کنی",
             icon: "warning",
-            buttons: ["نه گوه خوردم", "آره"],
+            buttons: ["نه بیخیال", "آره"],
             dangerMode: true,
         })
             .then((willDelete) => {
                 if (willDelete) {
                     dispatch(deleteItem(cart, item._id, "ADD_CART"))
                 } else {
-                    swal("دیگه فایده نداره دهنت سرویسه", {
-                        buttons: "نههههههههههه !!!",
+                    swal("عملیات متوقف شد", {
+                        buttons: "باشه دیگه !!",
                         dangerMode: true,
                         icon: "warning",
                     });

@@ -46,5 +46,6 @@ export async function getServerSideProps(context) {
     }
 }
 
+Payment.layout = "L1";
 
 export default Payment;

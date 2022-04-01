@@ -8,4 +8,6 @@ const Product = () => {
     );
 }
 
+Product.layout = "L1";
+
 export default Product;
